@@ -1,0 +1,26 @@
+.Main{
+    width: 100vw;
+    box-sizing: border-box;
+    height: calc(100vh - 55px);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.centerText {
+    width: 50vw;
+    height: 40vh;
+    /* border: 2PX solid white; */
+    border-radius: 10px;
+    text-align: center;
+    line-height: 40vh;
+    font-size: 64px;
+    font-weight: 1000;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    letter-spacing: 15px;
+    color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-text-stroke-width: 0.2px;
+    text-shadow: 0 0 5px rgb(255, 255, 255);
+}

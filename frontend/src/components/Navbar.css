@@ -1,0 +1,115 @@
+.nav{
+    width: 100vw;
+    height: 55px;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: rgb(0, 0, 0); */
+
+}
+.logo{
+    box-sizing: border-box;
+    line-height: 55px;
+    margin: 0;
+    padding: 0;
+    padding-left: 20px;
+    width: 10vw;
+    text-transform: uppercase;
+    height: 100%;
+    font-weight: 900 !important;
+    font-family: monospace;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-shadow: 0 0 5px rgb(0, 41, 143);
+    
+}
+.border {
+    width: 100%;
+    /* border: 2px solid rgb(255, 0, 0); */
+    box-sizing: border-box;
+    padding-left: 2px;
+    padding-right: 2px;
+    text-align: center;
+    height: 80%;
+    justify-content: center;
+    line-height: 55px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
+    animation: glowAnimation 1s infinite alternate;
+    display: flex;
+    justify-content: center;
+    /* background-color: rgb(102, 148, 232); */
+    align-items: center;
+}
+b{
+    
+    font-size: 18px;
+}
+.center{
+    width: 40vw;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.admin{
+    box-sizing: border-box;
+    line-height: 55px;
+    margin: 0;
+    padding: 0;
+    padding-right: 20px;
+    width: 10vw;
+    text-transform: uppercase;
+    height: 100%;
+    font-weight: 500;
+    font-family: monospace;
+    color: rgb(112, 70, 36);
+    text-transform: uppercase;
+    text-align: right;
+}
+.search{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+input{
+    margin: 0;
+    background-color: bisque;
+}
+button{
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    width: 60px;
+    height: 30px;
+    border-radius: 8px;
+    color: black;
+    font-weight: 500;
+    font-size: 15px;
+    box-sizing: border-box;
+    border: 2px solid white;
+}
+
+@keyframes glowAnimation {
+    /* Increase the shadow size and opacity */
+    0% {
+      box-shadow: 0 0 10px rgba(255, 0, 195, 0.5);
+    }
+    /* Decrease the shadow size and opacity */
+    100% {
+      box-shadow: 0 0 20px rgba(0, 0, 255, 1);
+    }
+  }
