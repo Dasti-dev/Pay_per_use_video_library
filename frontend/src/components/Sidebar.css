@@ -1,0 +1,23 @@
+.Sidebar {
+    width: 15%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0.5px solid grey;
+    height: 100%;
+}
+.optns{
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: monospace;
+    font-size: 16px;
+    color: black;
+    background-color: aliceblue;
+}
+.optns:hover{
+    background-color: black;
+    color: aliceblue;
+    cursor: pointer;
+}

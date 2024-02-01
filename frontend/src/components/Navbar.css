@@ -20,12 +20,16 @@
     font-weight: 900 !important;
     font-family: monospace;
     color: rgb(255, 255, 255);
-    font-size: 16px;
+    font-size: 24px;
     display: flex;
+    font-family: monospace;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    text-shadow: 0 0 5px rgb(0, 41, 143);
+    /* text-shadow: 0 0 5px rgb(0, 41, 143); */
+    color: rgb(255, 255, 255);
+    -webkit-text-stroke-color: rgb(255, 255, 255);
+    -webkit-text-stroke-width: 0.2px;
     
 }
 .border {
@@ -39,11 +43,11 @@
     justify-content: center;
     line-height: 55px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 255, 0.5);
-    animation: glowAnimation 1s infinite alternate;
+    /* box-shadow: 0 0 10px rgb(255, 255, 255); */
+    /* animation: glowAnimation 1s infinite alternate; */
     display: flex;
     justify-content: center;
-    /* background-color: rgb(102, 148, 232); */
+    /* background-color: rgb(255, 255, 255); */
     align-items: center;
 }
 b{
@@ -69,10 +73,12 @@ b{
     text-transform: uppercase;
     height: 100%;
     font-weight: 500;
-    font-family: monospace;
-    color: rgb(112, 70, 36);
+    
+    color: rgb(255, 255, 255);
     text-transform: uppercase;
     text-align: right;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 24px;
 }
 .search{
     width: 100%;
@@ -87,8 +93,39 @@ b{
 input{
     margin: 0;
     background-color: bisque;
+    padding: 0;
+    box-sizing: border-box;
+    width: 90%;
+    height: 30px;
+    border: 0.5px solid rgb(0, 0, 0);
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    padding-left: 8px;
+    padding-right: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    font-weight: 500;
+    font-size: 15px;
+    color: black;
 }
 button{
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    width: 10%;
+    height: 30px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    color: black;
+    font-weight: 500;
+    font-size: 15px;
+    box-sizing: border-box;
+    border: 0.5px solid rgb(1, 1, 1);
+    margin: 0;
+}
+
+.btnlog{
     padding-left: 4px;
     padding-right: 4px;
     padding-top: 0px;
@@ -96,11 +133,14 @@ button{
     width: 60px;
     height: 30px;
     border-radius: 8px;
-    color: black;
+    color: rgb(0, 0, 0);
     font-weight: 500;
     font-size: 15px;
     box-sizing: border-box;
-    border: 2px solid white;
+    border: 0.5px solid rgb(1, 1, 1);
+    margin: 0;
+    background-color: white;
+    font-family: monospace;
 }
 
 @keyframes glowAnimation {
@@ -112,4 +152,10 @@ button{
     100% {
       box-shadow: 0 0 20px rgba(0, 0, 255, 1);
     }
-  }
+}
+
+/* .admin{
+    color: white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 24px;
+} */

@@ -29,7 +29,7 @@ function Navbar() {
                 <div className='search'>     
                     <input
                         type="text"
-                        placeholder="Search..."
+                        placeholder="Type something ..."
                         // Add any additional attributes or event handlers as needed
                     />
                     <button type="submit">Search</button> 
@@ -38,7 +38,7 @@ function Navbar() {
         </div>
         <div className="admin">
             {
-                isLoggedIn ? useSelector(state => state.username) : <div className="btn"><button onClick={handleClick}>SignUp</button> <button onClick={handleClickLog}>Login</button></div>
+                isLoggedIn ? useSelector(state => state.username) : <div className="btn"><button className='btnlog' onClick={handleClick}>SignUp</button> <button className='btnlog' onClick={handleClickLog}>Login</button></div>
             }
         </div>
     </div>

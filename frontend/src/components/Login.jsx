@@ -28,15 +28,16 @@ const Login = () => {
         console.log(formData)
         const response = await axios.post('http://localhost:5000/auth/login', formData);
         const token = response.data.token;
+        const id = response.data.id;
         const name = formData.username;
         
-        dispatch(logIn({text:token,name:name}))
+        dispatch(logIn({text:token,name:name,id:id}))
         alert('Logged In')
         setFormData({
             username: '',
             password: ''
         });
-        navigate('/');
+        navigate('/dashboard');
     } catch (error) {
         console.error('Error:', error); // Handle error
         alert(error);
