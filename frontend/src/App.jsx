@@ -6,7 +6,6 @@ import SignupPage from './pages/SignupPage'
 import LoginPage from './pages/LoginPage';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
-import PrivateRoute from './PrivateRoute/Privateroute';
 
 function App() {
   const loggedIn = useSelector(state => state.isLoggedIn);
