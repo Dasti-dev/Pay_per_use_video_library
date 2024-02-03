@@ -1,23 +1,27 @@
 .dashboard {
-    width: 100vh;
+    width: 100vw;
     height: 100vh;
     margin: 0;
     padding: 0;
+    /* box-sizing: border-box; */
 }
 .content{
-    width: 100%;
+    width: 99vw;
+    height: calc(100vh - 65px);
     display: flex;
     justify-content: center;
     align-content: center;
     margin: 0;
     padding: 0;
-    height: calc(100vh - 55px);
+    height: calc(100vh - 65px);
+    margin-top: 5px;
+    border-radius: 10px;
 }
 .left{
-    width: 85%;
+    width: calc(85% - 5px);
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    background-color: #242424;
-    height: 100%;
+    /* background-color: #242424; */
+    height: calc(100% - 5px);
 }
