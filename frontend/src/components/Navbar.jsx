@@ -1,6 +1,7 @@
 import React,{ useState,useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector,useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
+import { logOut } from '../features/login/loginSlice';
 import './Navbar.css'
 
 function Navbar() {
@@ -14,6 +15,11 @@ function Navbar() {
     const handleClickLog = (e) => {
         e.preventDefault();
         navigator('/login')
+    }
+    const dispatch = useDispatch();
+    const handleLogout = () => {
+        dispatch(logOut());
+        navigator('/');
     }
 
   return (
@@ -38,7 +44,7 @@ function Navbar() {
         </div>
         <div className="admin">
             {
-                isLoggedIn ? useSelector(state => state.username) : <div className="btn"><button className='btnlog' onClick={handleClick}>SignUp</button> <button className='btnlog' onClick={handleClickLog}>Login</button></div>
+                isLoggedIn ? <div onClick={handleLogout}>{useSelector(state => state.username)}</div> : <div className="btn"><button className='btnlog' onClick={handleClick}>SignUp</button> <button className='btnlog' onClick={handleClickLog}>Login</button></div>
             }
         </div>
     </div>

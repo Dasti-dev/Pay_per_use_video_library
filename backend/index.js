@@ -18,10 +18,12 @@ app.use(cors());
 
 const authRoutes = require('./routes/auth');
 const transacRoutes = require('./routes/transaction');
+const getUsers = require('./routes/user')
 const authMiddleware = require('./middleware/authMiddleware');
 
 app.use('/auth', authRoutes);
 app.use('/wallet', authMiddleware.verifyToken ,transacRoutes);
+app.use('/list', authMiddleware.verifyToken ,getUsers);
 
 app.listen(PORT,() => {
     console.log(`Backend running at ${PORT}`);

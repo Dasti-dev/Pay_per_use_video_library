@@ -6,6 +6,7 @@ import SignupPage from './pages/SignupPage'
 import LoginPage from './pages/LoginPage';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
+import Login from './components/Login';
 
 function App() {
   const loggedIn = useSelector(state => state.isLoggedIn);
@@ -19,8 +20,9 @@ function App() {
           <Route path="/signup" element={<SignupPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           {
-            loggedIn &&
-            <Route path="/dashboard/*" element={<Dashboard />}></Route>
+            loggedIn ?
+            <Route path="/dashboard/*" element={<Dashboard />}></Route> :
+            <Route path="/dashboard/*" element={<Landing />}></Route>
           }
         </Routes>
       </div>

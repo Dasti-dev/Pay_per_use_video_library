@@ -4,7 +4,7 @@ import './Video.css'
 function Video() {
   return (
     <div className="video">
-        Video Loading
+        Videos arriving soon
     </div>
   )
 }

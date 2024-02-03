@@ -4,29 +4,29 @@ const Account = require('../model/account');
 
 const router = express.Router();
 
-router.post('/send', async (req,res) => {
+router.post('/send', async (req, res) => {
     try {
-        const { sender , recipient , amount } = req.body;
+        const { sender, recipient, amount } = req.body;
 
-        const senderAccount = await Account.findOne({owner : sender}).populate('owner')
-        
-        
-        const recipientAccount = await Account.findOne({owner : recipient}).populate('owner')
-        
+        // Convert amount to a number
+        const parsedAmount = parseInt(amount);
+
+        const senderAccount = await Account.findOne({ owner: sender }).populate('owner');
+        const recipientAccount = await Account.findOne({ owner: recipient }).populate('owner');
 
         if (!senderAccount || !recipientAccount) {
             return res.status(404).json({ error: 'Sender or recipient account not found' });
         }
 
-        if (senderAccount.balance < amount) {
+        if (senderAccount.balance < parsedAmount) {
             return res.status(400).json({ error: 'Insufficient balance' });
         }
 
         const session = await mongoose.startSession();
         session.startTransaction();
 
-        senderAccount.balance -= amount;
-        recipientAccount.balance += amount;
+        senderAccount.balance -= parsedAmount;
+        recipientAccount.balance += parsedAmount;
         await senderAccount.save({ session });
         await recipientAccount.save({ session });
 
@@ -37,13 +37,14 @@ router.post('/send', async (req,res) => {
 
     } catch (error) {
         console.error('Error in transaction:', error);
-        if(session) {
+        if (session) {
             await session.abortTransaction();
             session.endSession();
         }
         return res.status(500).json({ error: 'Internal Server Error' });
     }
-})
+});
+
 
 router.get('/balance/:id', async (req,res) => {
     try {

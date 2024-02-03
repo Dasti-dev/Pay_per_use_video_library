@@ -1,84 +1,126 @@
-import React ,{useState} from 'react'
-import './Wallet.css'
-import axios from 'axios'
-import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import './Wallet.css';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 function Wallet() {
-  const id = useSelector(state => state.id)
-  const token = useSelector(state => state.token)
-  const [formData, setFormData] = useState({
-    sender : id,
-    recipient : '',
-    amount : '',
-  });
+  const [user, setUser] = useState([]);
+  const [page, setPage] = useState(true);
+  const [amount, setAmount] = useState('');
+  const [resid, setResid] = useState('');
+  const [toggle,setToggle] = useState(true)
+  const [balance, setBalance] = useState(null)
+  const id = useSelector(state => state.id);
+  const token = useSelector(state => state.token);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
+    setAmount(e.target.value);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const headers = {
+          'Authorization': `${token}`
+        };
+        const response = await axios.get('http://localhost:5000/list/users', { headers });
+        setUser(response.data);
+      } catch (error) {
+        console.log(error);
+        // alert(error)
+      }
+    };
+
+    fetchData();
+
+    return () => {
+
+    };
+
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
-      
-      console.log(token);
+      const formData = {
+        "sender": id,
+        "recipient": resid,
+        "amount": amount,
+      };
       const headers = {
         'Authorization': `${token}`
       };
-      // Send data to API using Axios
-      const response = await axios.post('http://localhost:5000/wallet/send', formData , { headers });
-      console.log('Response:', response.data);
-      // Reset form after successful submission
-      setFormData({
-        sender: '',
-        recipient: '',
-        amount: '',
-      });
-      alert('Transaction successful!');
+
+      const response = await axios.post('http://localhost:5000/wallet/send', formData, { headers });
+      alert(JSON.stringify(response.data));
+      setPage(true);
+      setAmount('');
     } catch (error) {
-      console.error('Error:', error); // Handle error
-      alert('Transaction failed. Please try again.');
+      console.log(error);
+      alert(error);
     }
   };
 
+  const handleSend = (id) => {
+    setResid(id);
+    setPage(false);
+    return;
+  };
+
+  const handlebalance = async (id) => {
+    try {
+      const headers = {
+        'Authorization': `${token}`
+      };
+      const response = await axios.get(`http://localhost:5000/wallet/balance/${id}`, { headers });
+      setBalance(response.data.balance)
+      setToggle(false);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className='walletPage'>
-        <div className="paypage">
-          <div className="balance">
-
-          </div>
-          <div className="transac">
-            <form onSubmit={handleSubmit}>
-              <div>
-                <label htmlFor="recipient">Recipient</label>
-                <input
-                  type="text"
-                  id="recipient"
-                  name="recipient"
-                  value={formData.recipient}
-                  onChange={handleChange}
-                />
+      {page ?
+        (
+          <div className="paypage">
+            <div className="block">
+              <div className="name">Balance</div>
+              <div className="sendmoney">
+                  {toggle ? <button className='sendbtn' onClick={() => handlebalance(id)}>Send</button>:<button className='sendbtn'>{balance}</button>}
+                </div>
+            </div>
+            {user.map((data) => (
+              <div className="block" key={data._id}>
+                <div className="name">{data.username}</div>
+                <div className="sendmoney">
+                  <button className='sendbtn' onClick={() => handleSend(data._id)}>Send</button>
+                </div>
               </div>
-              <div>
-                <label htmlFor="amount">Amount:</label>
+            ))}
+          </div>
+        ) : (
+          <div className="amountsend">
+            <div className="formWallet">
+              <h2>Input Form</h2>
+              <form className='formclass' onSubmit={handleSubmit}>
+                <label htmlFor="amountInput">Amount:</label>
                 <input
                   type="number"
-                  id="amount"
-                  name="amount"
-                  value={formData.amount}
+                  id="amountInput"
+                  value={amount}
                   onChange={handleChange}
+                  placeholder="Enter amount"
+                  required
                 />
-              </div>
-              <button type="submit">Submit</button>
-            </form>
+                <button type="submit" className='sendbtn'>Submit</button>
+              </form>
+            </div>
           </div>
-        </div>  
+        )}
     </div>
-  )
+  );
 }
 
-export default Wallet
+export default Wallet;
