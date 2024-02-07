@@ -1,15 +1,18 @@
-import React from 'react'
-import './Landing.css'
+import React, { lazy, Suspense } from 'react';
+import './Landing.css';
 import Navbar from '../components/Navbar';
-import Main from '../components/Main';
+
+const Main = lazy(() => import('../components/Main'));
 
 function Landing() {
   return (
     <div>
-        <Navbar></Navbar>
-        <Main></Main>
+      <Navbar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Main />
+      </Suspense>
     </div>
-  )
+  );
 }
 
-export default Landing
+export default Landing;

@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react';
 import Navbar from '../components/Navbar';
-import Login from '../components/Login';
+
+const Login = lazy(() => import('../components/Login'));
 
 function LoginPage() {
   return (
     <div>
-        <div>
-            <Navbar></Navbar>
-            <Login></Login>
-        </div>
+      <Navbar />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Login />
+      </Suspense>
     </div>
-  )
+  );
 }
 
 export default LoginPage;

@@ -5,6 +5,7 @@ const initialState = {
     token : null,
     username : 'User1',
     id : null,
+    videoContent : null
 }
 
 export const loginSlice = createSlice({
@@ -23,9 +24,12 @@ export const loginSlice = createSlice({
             state.username = null;
             state.id = null;
         },
+        setData: (state,action) => {
+            state.videoContent = action.payload.data;
+        },
     }
 })
 
-export const {logIn,logOut} = loginSlice.actions;
+export const {logIn,logOut,setData} = loginSlice.actions;
 
 export default loginSlice.reducer

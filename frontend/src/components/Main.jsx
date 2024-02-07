@@ -1,14 +1,30 @@
-import React from 'react'
-import './Main.css'
+import React, { useState, useEffect } from 'react';
+import './Main.css';
 
-function Main() {
+const Main = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulating loading delay
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+
+    // Clear timeout on unmount
+    return () => clearTimeout(timeout);
+  }, []);
+
   return (
     <div className='Main'>
-      <div className="centerText">
-        WORLD OF MOVIES
-      </div>
+      {loading ? (
+        <div className="loadingText">Loading...</div>
+      ) : (
+        <div className="centerText">
+          WORLD OF MOVIES
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Main
+export default React.memo(Main);
