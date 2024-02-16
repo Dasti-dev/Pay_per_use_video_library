@@ -1,9 +1,15 @@
 const express = require('express');
 const cloudinary = require('cloudinary').v2;
 const Video = require('../model/video')
+const aws = require('aws-sdk');
 const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const router = express.Router();
+
+const s3 = new aws.S3({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+});
 
 const generateRandomVideo = () => {
   const titles = ['Video 1', 'Video 2', 'Video 3', 'Video 4', 'Video 5'];
@@ -40,6 +46,16 @@ router.post('/upload',upload.single('thumbnail'), async (req, res) => {
         if (!title || !description || !authorId ) {
           return res.status(400).json({ error: 'Title, description, authorId, and link are required' });
         }
+
+        const uploadParams = {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: `videos/${req.file.originalname}`,
+          Body: req.file.buffer,
+          ContentType: req.file.mimetype,
+        };
+
+        const uploadResult = await s3.upload(uploadParams).promise();
+        const videoUrl = uploadResult.Location;
     
         // Upload thumbnail to Cloudinary
         const thumbnailResult = await cloudinary.uploader.upload(req.file.path);
@@ -50,7 +66,7 @@ router.post('/upload',upload.single('thumbnail'), async (req, res) => {
           description,
           author: authorId,
           thumbnail: thumbnailResult.secure_url,
-          link: link || 'https://www.youtube.com/watch?v=k1RI5locZE4',
+          link: videoUrl || 'https://www.youtube.com/watch?v=k1RI5locZE4',
           like: 0,
           dislike: 0,
           premium: premium || false,

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import './Upload.css';
@@ -12,7 +12,7 @@ function Upload() {
     description: '',
     authorId: useSelector(state => state.id),
     thumbnail: null,
-    link: '',
+    video: null,
     premium: false,
     amount: 0
   });
@@ -26,9 +26,10 @@ function Upload() {
   }, []);
 
   const handleFileChange = useCallback((e) => {
+    const { name, files } = e.target;
     setFormData(prevState => ({
       ...prevState,
-      thumbnail: e.target.files[0]
+      [name]: files[0]
     }));
   }, []);
 
@@ -36,20 +37,24 @@ function Upload() {
     e.preventDefault();
     try {
       setLoading(true);
-      const headers = { 'Authorization': `${token}` };
       const formDataToSend = new FormData();
       for (const key in formData) {
         formDataToSend.append(key, formData[key]);
       }
-      const response = await axios.post('http://localhost:5000/video/upload', formDataToSend, { headers });
+      const response = await axios.post('http://localhost:5000/video/upload', formDataToSend, {
+        headers: {
+          'Authorization': `${token}`,
+          'Content-Type': 'multipart/form-data'
+        }
+      });
       console.log(response.data);
       setLoading(false);
       setFormData({
-        ...formData,
         title: '',
         description: '',
+        authorId: useSelector(state => state.id),
         thumbnail: null,
-        link: '',
+        video: null,
         premium: false,
         amount: 0
       });
@@ -57,6 +62,7 @@ function Upload() {
     } catch (error) {
       console.error(error);
       setLoading(false);
+      alert('Failed to upload video');
     }
   };
 
@@ -70,35 +76,48 @@ function Upload() {
           </div>
           <div className="videoUploader">
             <div>
-              <input className="field" type="text" name="link" value={formData.link} onChange={handleChange} />
+              <input className="field" type="file" name="video" onChange={handleFileChange} />
             </div>
           </div>
         </div>
       </div>
-      <div className="formSide">
-        <div className="formhandle">
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="labeldiv">
-              <label>Title:</label>
-              <input className="field" type="text" name="title" value={formData.title} onChange={handleChange} required />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Form
+          formData={formData}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          loading={loading}
+        />
+      </Suspense>
+    </div>
+  );
+}
+
+function Form({ formData, handleChange, handleSubmit, loading }) {
+  return (
+    <div className="formSide">
+      <div className="formhandle">
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="labeldiv">
+            <label>Title:</label>
+            <input className="field" type="text" name="title" value={formData.title} onChange={handleChange} required />
+          </div>
+          <div className="labeldiv">
+            <label>Description:</label>
+            <textarea className="field" name="description" value={formData.description} onChange={handleChange} required />
+          </div>
+          <div className="labeldiv checkdiv">
+            <label>Premium:</label>
+            <input className="field check" type="checkbox" name="premium" checked={formData.premium} onChange={handleChange} />
+          </div>
+          {formData.premium && (
+            <div className="labeldiv ">
+              <label>Amount:</label>
+              <input className="field" type="number" name="amount" value={formData.amount} onChange={handleChange} required />
             </div>
-            <div className="labeldiv">
-              <label>Description:</label>
-              <textarea className="field" name="description" value={formData.description} onChange={handleChange} required />
-            </div>
-            <div className="labeldiv checkdiv">
-              <label>Premium:</label>
-              <input className="field check" type="checkbox" name="premium" checked={formData.premium} onChange={handleChange} />
-            </div>
-            {formData.premium && (
-              <div className="labeldiv ">
-                <label>Amount:</label>
-                <input className="field" type="number" name="amount" value={formData.amount} onChange={handleChange} required />
-              </div>
-            )}
-            {loading ? <button type="submit" className='uploadButton' disabled>Submitting...</button> : <button type="submit" className='uploadButton'>Submit</button>}
-          </form>
-        </div>
+          )}
+          {loading ? <button type="submit" className='uploadButton' disabled>Submitting...</button> : <button type="submit" className='uploadButton'>Submit</button>}
+        </form>
       </div>
     </div>
   );
